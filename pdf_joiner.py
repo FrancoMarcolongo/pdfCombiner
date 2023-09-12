@@ -4,16 +4,16 @@ from datetime import datetime
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
-gc = gspread.service_account(filename='d:/LeCoq/programming_projects/nrofacreader-dffdcbec5c76.json')
+gc = gspread.service_account(filename='myCredentials.json')
 
-gDocName = "Fravega"
+gDocName = "mySheetName"
 sheet = gc.open(gDocName)
 
 searchParams = sheet.get_worksheet(5).get('L2:L')
 
-searchDir = 'd:\LeCoq\Trabajo\Facturas Fravega'
+searchDir = 'myFilesDirectory'
 
-outputDir = 'd:\Descargas'
+outputDir = 'outputDirectory'
 
 def searchPdfs():
     pdfFiles = []
@@ -43,15 +43,15 @@ def combinePdfs(archivos_pdf, output_file):
 
 today = datetime.now().strftime('%d-%m-%y')
 
-combinedPdf = os.path.join(outputDir, f'Facturas Fravega {today}.pdf')
+combinedPdf = os.path.join(outputDir, f'myFileName - {today}.pdf')
 
 pdfsFound, pdfsNotFound = searchPdfs()
 
 if pdfsFound:
     combinePdfs(pdfsFound, combinedPdf)
-    print(f'Se han combinado {len(pdfsFound)} archivos.')
+    print(f'{len(pdfsFound)} files combined.')
 else:
-    print('No se encontraron archivos PDF con los números especificados.')
+    print('No PDF files found with given parameters.')
 
 if pdfsNotFound:
-    print(f'Archivos no encontrados para los siguientes números: {pdfsNotFound}')
+    print(f'No files found for this parameters: {pdfsNotFound}')
